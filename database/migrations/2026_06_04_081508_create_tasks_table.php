@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->enum('status', ['backlog', 'completed'])->default('backlog');
+            $table->enum('status', ['backlog', 'in_progress', 'completed'])->default('backlog');
             $table->date('due_date')->nullable();
             $table->timestamps();
         });
