@@ -223,7 +223,8 @@
                 title: '',
                 description: '',
                 due_date: '',
-                status: 'backlog'
+                status: 'backlog',
+                attachment_url: null
             },
             calendarRendered: false,
             chartRendered: false,

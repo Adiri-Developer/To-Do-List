@@ -56,6 +56,13 @@ Dokumen ini berisi perintah-perintah yang dapat dipanggil untuk mengeksekusi pem
 *   Menambahkan kursor *pointer* saat di-*hover* pada tombol Sign In dan Sign Up.
 *   Menambahkan efek visual pemuatan (*loading state*) pada tombol saat data di-*submit*.
 
+### Langkah 8: Fitur Attachment dengan Cloudflare R2 Storage (Selesai ✅)
+*   Menginstal *package* `league/flysystem-aws-s3-v3` untuk dukungan *storage* S3-compatible (R2).
+*   Membuat *migration* untuk menambahkan kolom `attachment_url` pada tabel `tasks`.
+*   Menambahkan input *file attachment* pada form pembuatan & pengubahan *task* (modal).
+*   Memodifikasi *controller* agar mengunggah *file* ke disk `s3` (Cloudflare R2) dan menyimpan URL publiknya ke database.
+*   Menampilkan *file* tersebut di mode "View" *task*: langsung render jika berupa gambar, atau tombol "Download" jika berupa dokumen/berkas lain.
+
 ---
 **Catatan untuk Pengguna:** 
 Selamat! Hampir semua langkah utama dalam *roadmap* pengembangan aplikasi To-Do List ini telah selesai dieksekusi. Aplikasi Anda kini siap untuk digunakan secara penuh dengan performa dan desain maksimal!
