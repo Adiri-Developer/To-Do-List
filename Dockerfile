@@ -8,6 +8,7 @@ RUN install-php-extensions \
     pcntl \
     bcmath \
     gd \
+    zip \
     opcache
 
 # Install Node.js, npm, and other essential tools
