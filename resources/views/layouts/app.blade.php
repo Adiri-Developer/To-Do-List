@@ -29,7 +29,16 @@
                             <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">{{ config('app.name') }}</span>
                         </a>
                     </div>
-                    <div class="flex items-center">
+                    <div class="flex items-center space-x-4">
+                        @auth
+                        <div class="flex items-center space-x-3">
+                            <div class="text-right hidden sm:block">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ Auth::user()->name }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
+                            </div>
+                            <img class="h-8 w-8 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800" src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed={{ urlencode(Auth::user()->email) }}" alt="User Avatar">
+                        </div>
+                        @endauth
                         <button @click="darkMode = !darkMode" type="button" class="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition-colors duration-200">
                             <!-- Sun Icon -->
                             <svg x-show="darkMode" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
