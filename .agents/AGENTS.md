@@ -45,13 +45,17 @@ Dokumen ini berisi perintah-perintah yang dapat dipanggil untuk mengeksekusi pem
 *   Memperbaiki bug UI, memastikan transisi Dark Mode mulus.
 *   Menyempurnakan fungsionalitas keseluruhan aplikasi (Refactoring sistem Auth layout).
 
-### Langkah 6: Fitur Export to Excel (Selesai ✅)
+### Langkah 6: Fitur Export to Excel & JSON (Selesai ✅)
 *   Menginstal *library* Maatwebsite Excel.
 *   Membuat *class* Export (TaskExport) khusus.
 *   Menambahkan modal filter (Range Tanggal & Status) di UI Dashboard.
-*   Membuat fungsi dan *route* untuk memproses *download* file Excel.
+*   Membuat fungsi dan *route* untuk memproses *download* file Excel dan JSON.
 *   **[Tambahan]** Fitur *Data Validation (Dropdown)* otomatis pada kolom Status Excel.
+
+### Langkah 7: Peningkatan UX pada Halaman Autentikasi (Selesai ✅)
+*   Menambahkan kursor *pointer* saat di-*hover* pada tombol Sign In dan Sign Up.
+*   Menambahkan efek visual pemuatan (*loading state*) pada tombol saat data di-*submit*.
 
 ---
 **Catatan untuk Pengguna:** 
-Selamat! Semua langkah dalam *roadmap* pengembangan aplikasi To-Do List ini telah selesai dieksekusi. Aplikasi Anda kini siap untuk digunakan secara penuh dengan performa dan desain maksimal!
+Selamat! Hampir semua langkah utama dalam *roadmap* pengembangan aplikasi To-Do List ini telah selesai dieksekusi. Aplikasi Anda kini siap untuk digunakan secara penuh dengan performa dan desain maksimal!
