@@ -13,4 +13,4 @@ echo "Caching events..."
 php artisan event:cache
 
 echo "Starting FrankenPHP via Laravel Octane..."
-exec php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --workers=auto
+exec php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=80 --admin-port=2019 --workers=auto
