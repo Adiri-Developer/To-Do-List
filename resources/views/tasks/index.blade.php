@@ -6,7 +6,13 @@
     <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center px-4 sm:px-0 gap-4">
         <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">My Tasks</h1>
         <div class="flex items-center space-x-4">
-            <button @click="openModal('create')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors duration-150 ease-in-out flex items-center">
+            <button @click="isExportModalOpen = true" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors duration-150 ease-in-out flex items-center">
+                <svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Export
+            </button>
+            <button @click="openModal('create')" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors duration-150 ease-in-out flex items-center">
                 <svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
@@ -14,7 +20,7 @@
             </button>
             <form method="POST" action="{{ route('logout') }}" class="m-0">
                 @csrf
-                <button type="submit" class="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2">
+                <button type="submit" class="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2">
                     Log Out
                 </button>
             </form>
@@ -148,6 +154,54 @@
 
     <!-- Modal Component -->
     <x-task-modal />
+
+    <!-- Export Modal -->
+    <div x-show="isExportModalOpen" class="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="display: none;">
+        <div x-show="isExportModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto" @click="isExportModalOpen = false">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div x-show="isExportModalOpen" @click.stop x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <form action="{{ route('tasks.export') }}" method="GET">
+                    <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 mb-4" id="modal-title">
+                            Export Tasks to Excel
+                        </h3>
+                        <div class="space-y-4 text-left">
+                            <div>
+                                <label for="start_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date (Optional)</label>
+                                <input type="date" name="start_date" id="start_date" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="end_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date (Optional)</label>
+                                <input type="date" name="end_date" id="end_date" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                                <select name="status" id="status" class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:text-white">
+                                    <option value="ALL">All Statuses</option>
+                                    <option value="backlog">Backlog</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button @click="isExportModalOpen = false" type="submit" name="format" value="excel" class="cursor-pointer w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                            Download Excel
+                        </button>
+                        <button @click="isExportModalOpen = false" type="submit" name="format" value="json" class="cursor-pointer mt-3 sm:mt-0 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                            Download JSON
+                        </button>
+                        <button @click="isExportModalOpen = false" type="button" class="cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Scripts for Calendar and Chart -->
@@ -162,6 +216,7 @@
         Alpine.data('taskManager', () => ({
             activeTab: 'list',
             isModalOpen: false,
+            isExportModalOpen: false,
             modalMode: 'create',
             task: {
                 id: null,

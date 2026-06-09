@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Email - {{ config('app.name') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-screen transition-colors duration-300">
+@extends('layouts.auth')
+
+@section('title', 'Verify Email - ' . config('app.name'))
+
+@section('content')
     <div class="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 text-center">
         <div class="mb-6 flex justify-center">
             <div class="h-16 w-16 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center">
@@ -44,5 +40,4 @@
             </form>
         </div>
     </div>
-</body>
-</html>
+@endsection

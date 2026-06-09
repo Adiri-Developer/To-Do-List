@@ -33,6 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect('/tasks');
     });
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('/tasks/export', [TaskController::class, 'export'])->name('tasks.export');
     Route::resource('tasks', TaskController::class)->except(['create', 'show', 'edit', 'index']);
     Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.status');
 });

@@ -1,54 +1,57 @@
 # Agen Eksekusi (AGENTS.md)
 
-## Rangkuman Kebutuhan (User Requirements Summary)
-Pengguna meminta pembuatan aplikasi To-Do List pribadi dengan spesifikasi berikut:
-1. Menggunakan Laravel sebagai Frontend dan Backend (Monolith).
-2. UI yang intuitif dan enak dipandang (desain premium).
-3. Terdapat mode gelap (Dark Mode).
-4. Memiliki fungsi CRUD lengkap untuk To-Do.
-5. Memiliki fitur History (tugas selesai) dan Backlog (tugas yang belum selesai/akan datang).
-6. Terdapat Kalender untuk memetakan To-Do list per hari.
-7. Terdapat Grafik/Chart untuk memvisualisasikan data To-Do list.
-8. Desain keseluruhan yang menarik dan rapi.
+## Rangkuman Kebutuhan & Status Saat Ini (User Requirements & Current Status)
+Pengguna meminta pembuatan aplikasi To-Do List pribadi. Berikut adalah spesifikasi dan **status pengerjaan saat ini**:
+
+1. **[SELESAI]** Menggunakan Laravel sebagai Frontend dan Backend (Monolith).
+2. **[SELESAI]** UI yang intuitif dan enak dipandang (desain premium menggunakan Tailwind CSS & Alpine.js).
+3. **[SELESAI]** Terdapat mode gelap (Dark Mode).
+4. **[SELESAI]** Memiliki fungsi CRUD lengkap untuk To-Do.
+5. **[SELESAI]** Memiliki fitur History (tugas selesai) dan Backlog (tugas yang belum selesai/akan datang).
+6. **[SELESAI]** Sistem Autentikasi Pengguna (Login, Register) beserta verifikasi Email menggunakan SMTP Sumopod.
+7. **[SELESAI]** Deployment CI/CD via GitHub Actions ke Server.
+8. **[SELESAI]** Setup Docker (menggunakan FrankenPHP & Laravel Octane) untuk performa tingkat tinggi.
+9. **[SELESAI]** Terdapat Kalender untuk memetakan To-Do list per hari.
+10. **[SELESAI]** Terdapat Grafik/Chart untuk memvisualisasikan data To-Do list.
+11. **[MENUNGGU]** Fitur Export to Excel berdasarkan filter Tanggal dan Status.
+
+---
 
 ## Langkah Eksekusi (Execution Steps)
 Dokumen ini berisi perintah-perintah yang dapat dipanggil untuk mengeksekusi pembangunan aplikasi tahap demi tahap. **Pengguna dapat memberikan perintah kepada saya (Agent) untuk menjalankan langkah-langkah berikut:**
 
-### Langkah 1: Setup Proyek Laravel & Environment
-**Perintah ke Agent:** `Agent, jalankan Langkah 1`
-*   **Aksi yang akan dilakukan Agent:**
-    *   Menginstal Laravel baru menggunakan Composer di direktori ini.
-    *   Mengatur database (menggunakan SQLite).
-    *   Menginstal framework frontend (Tailwind CSS, Alpine.js) untuk UI dan interaktivitas.
+### Langkah 1: Setup Proyek Laravel & Lingkungan Tingkat Lanjut (Selesai ✅)
+*   Menginstal Laravel.
+*   Mengubah database dari SQLite ke PostgreSQL (Supabase).
+*   Setup Docker (FrankenPHP + Octane) dan CI/CD pipeline (GitHub Actions).
 
-### Langkah 2: Pembuatan Model, Migration, & Controller
-**Perintah ke Agent:** `Agent, jalankan Langkah 2`
-*   **Aksi yang akan dilakukan Agent:**
-    *   Membuat model `Task`.
-    *   Membuat migration file dengan kolom yang dibutuhkan (`title`, `description`, `status`, `due_date`, dll).
-    *   Membuat `TaskController` dengan metode CRUD lengkap.
+### Langkah 2: Autentikasi & Database Migration (Selesai ✅)
+*   Membuat model `User` dan `Task`.
+*   Sistem registrasi dan verifikasi email.
+*   Membuat `TaskController` dengan metode CRUD lengkap.
 
-### Langkah 3: Desain UI, Dark Mode, & CRUD Dasar (Frontend)
-**Perintah ke Agent:** `Agent, jalankan Langkah 3`
-*   **Aksi yang akan dilakukan Agent:**
-    *   Mengatur layout utama Blade dengan konfigurasi Tailwind Dark Mode.
-    *   Membuat halaman Dashboard/Home yang menampilkan daftar Backlog dan History.
-    *   Membangun komponen form interaktif untuk Create/Edit/Delete tugas.
+### Langkah 3: Desain UI, Dark Mode, & Dashboard (Selesai ✅)
+*   Mengatur layout utama Blade dengan Tailwind Dark Mode.
+*   Membuat halaman Dashboard (Backlog dan History).
+*   Menambahkan informasi user (Nama, Email, dan Avatar Acak dari DiceBear) di header.
 
-### Langkah 4: Implementasi Kalender & Grafik
-**Perintah ke Agent:** `Agent, jalankan Langkah 4`
-*   **Aksi yang akan dilakukan Agent:**
-    *   Mengintegrasikan library Kalender (misal: FullCalendar.js) ke dalam UI.
-    *   Mengintegrasikan library Chart (misal: Chart.js) untuk menampilkan visualisasi data.
-    *   Menghubungkan data kalender dan grafik secara dinamis dari database.
+### Langkah 4: Implementasi Kalender & Grafik (Selesai ✅)
+*   Mengintegrasikan library Kalender (FullCalendar.js) ke dalam UI.
+*   Mengintegrasikan library Chart (Chart.js) untuk menampilkan visualisasi data statistik To-Do.
+*   Menghubungkan data kalender dan grafik secara dinamis dari database.
 
-### Langkah 5: Finalisasi & Polishing Desain
-**Perintah ke Agent:** `Agent, jalankan Langkah 5`
-*   **Aksi yang akan dilakukan Agent:**
-    *   Meninjau ulang semua halaman.
-    *   Memperbaiki bug UI, memastikan transisi Dark Mode mulus.
-    *   Menjalankan server development untuk memverifikasi fungsionalitas keseluruhan.
+### Langkah 5: Finalisasi & Polishing Desain (Selesai ✅)
+*   Meninjau ulang semua halaman.
+*   Memperbaiki bug UI, memastikan transisi Dark Mode mulus.
+*   Menyempurnakan fungsionalitas keseluruhan aplikasi (Refactoring sistem Auth layout).
+
+### Langkah 6: Fitur Export to Excel (Selesai ✅)
+*   Menginstal *library* Maatwebsite Excel.
+*   Membuat *class* Export (TaskExport) khusus.
+*   Menambahkan modal filter (Range Tanggal & Status) di UI Dashboard.
+*   Membuat fungsi dan *route* untuk memproses *download* file Excel.
+*   **[Tambahan]** Fitur *Data Validation (Dropdown)* otomatis pada kolom Status Excel.
 
 ---
 **Catatan untuk Pengguna:** 
-Silakan perintahkan saya dengan format `"Tolong jalankan Langkah 1"` untuk memulai proses inisiasi pengembangan!
+Selamat! Semua langkah dalam *roadmap* pengembangan aplikasi To-Do List ini telah selesai dieksekusi. Aplikasi Anda kini siap untuk digunakan secara penuh dengan performa dan desain maksimal!

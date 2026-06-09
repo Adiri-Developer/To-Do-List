@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - {{ config('app.name') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-screen transition-colors duration-300">
+@extends('layouts.auth')
+
+@section('title', 'Login - ' . config('app.name'))
+
+@section('content')
     <div class="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold text-blue-600 dark:text-blue-400 tracking-tight">{{ config('app.name') }}</h1>
@@ -37,7 +33,7 @@
 
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+                    <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 transition-colors">
                     <label for="remember" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                         Remember me
                     </label>
@@ -54,5 +50,4 @@
             <a href="{{ route('register') }}" class="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Sign up</a>
         </p>
     </div>
-</body>
-</html>
+@endsection

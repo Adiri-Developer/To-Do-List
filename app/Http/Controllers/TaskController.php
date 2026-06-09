@@ -118,4 +118,48 @@ class TaskController extends Controller
 
         return back()->with('success', 'Task deleted successfully!');
     }
+
+    /**
+     * Export tasks to Excel.
+     */
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'nullable|string|in:ALL,backlog,in_progress,completed',
+            'format' => 'nullable|string|in:excel,json',
+        ]);
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $status = $request->input('status', 'ALL');
+        $format = $request->input('format', 'excel');
+
+        if ($format === 'json') {
+            $exportClass = new \App\Exports\TasksExport($startDate, $endDate, $status);
+            $tasks = $exportClass->query()->get();
+            
+            $mappedTasks = $tasks->map(function ($task) use ($exportClass) {
+                $mapped = $exportClass->map($task);
+                return [
+                    'Title' => $mapped[0],
+                    'Description' => $mapped[1],
+                    'Due Date' => $mapped[2],
+                    'Status' => $mapped[3],
+                ];
+            });
+
+            return response()->streamDownload(function () use ($mappedTasks) {
+                echo json_encode($mappedTasks, JSON_PRETTY_PRINT);
+            }, 'tasks.json', [
+                'Content-Type' => 'application/json',
+            ]);
+        }
+
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\TasksExport($startDate, $endDate, $status), 
+            'tasks.xlsx'
+        );
+    }
 }
