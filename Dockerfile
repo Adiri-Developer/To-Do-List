@@ -16,14 +16,15 @@ RUN apk add --no-cache \
     libxml2-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring pcntl bcmath gd
+RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring pcntl bcmath gd opcache
 
 # Create necessary directories for Nginx and Supervisor
 RUN mkdir -p /run/nginx /var/log/supervisor
 
-# Configure Nginx & Supervisor (We will copy the configs shortly)
+# Configure Nginx, Supervisor, and OPcache
 COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
+COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 # Set working directory
 WORKDIR /var/www/html
@@ -33,7 +34,7 @@ COPY . .
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
 # Install Node dependencies and build assets
 RUN npm install && npm run build
@@ -46,5 +47,10 @@ RUN chown -R www-data:www-data /var/www/html \
 # Expose port 80
 EXPOSE 80
 
-# Start Supervisor which will run both Nginx and PHP-FPM
+# Setup entrypoint script
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Set entrypoint and start Supervisor
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
