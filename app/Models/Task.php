@@ -12,7 +12,8 @@ class Task extends Model
         'title',
         'description',
         'status',
-        'due_date'
+        'due_date',
+        'attachment_url'
     ];
 
     public function user(): BelongsTo

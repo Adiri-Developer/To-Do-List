@@ -26,7 +26,7 @@
              x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
              class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-gray-200 dark:border-gray-700 relative z-10">
             
-            <form :action="modalMode === 'create' ? '{{ route('tasks.store') }}' : '/tasks/' + task.id" method="POST">
+            <form :action="modalMode === 'create' ? '{{ route('tasks.store') }}' : '/tasks/' + task.id" method="POST" enctype="multipart/form-data">
                 @csrf
                 <!-- Dynamic Method override for Edit -->
                 <template x-if="modalMode === 'edit'">
@@ -59,6 +59,24 @@
                                             <span class="mt-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300" x-text="task.status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())"></span>
                                         </div>
                                     </div>
+                                    <template x-if="task.attachment_url">
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Attachment</h4>
+                                            <div class="mt-2">
+                                                <template x-if="task.attachment_url.match(/\.(jpeg|jpg|gif|png)$/i) != null">
+                                                    <img :src="task.attachment_url" alt="Attachment" class="max-w-full h-auto rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                                                </template>
+                                                <template x-if="task.attachment_url.match(/\.(jpeg|jpg|gif|png)$/i) == null">
+                                                    <a :href="task.attachment_url" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                                        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                                        </svg>
+                                                        Download Attachment
+                                                    </a>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </template>
 
@@ -81,6 +99,19 @@
                                     <div>
                                         <label for="due_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Due Date</label>
                                         <input type="date" name="due_date" id="due_date" x-model="task.due_date" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border">
+                                    </div>
+
+                                    <!-- Attachment -->
+                                    <div>
+                                        <label for="attachment" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Attachment (Optional, Max 10MB)</label>
+                                        <div class="mt-1 flex items-center">
+                                            <input type="file" name="attachment" id="attachment" class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-700 dark:file:text-gray-300 dark:hover:file:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md">
+                                        </div>
+                                        <template x-if="task.attachment_url && modalMode === 'edit'">
+                                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                                Current file: <a :href="task.attachment_url" target="_blank" class="text-blue-600 hover:text-blue-500 underline">View</a>. Uploading a new file will replace it.
+                                            </p>
+                                        </template>
                                     </div>
                                 </div>
                             </template>

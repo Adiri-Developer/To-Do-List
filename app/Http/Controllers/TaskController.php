@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -54,9 +55,15 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'due_date' => 'nullable|date',
+            'attachment' => 'nullable|file|max:10240', // max 10MB
         ]);
 
         $validated['status'] = 'backlog';
+
+        if ($request->hasFile('attachment')) {
+            $path = $request->file('attachment')->store('todo-list', 's3');
+            $validated['attachment_url'] = Storage::disk('s3')->url($path);
+        }
 
         auth()->user()->tasks()->create($validated);
 
@@ -72,10 +79,16 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'due_date' => 'nullable|date',
+            'attachment' => 'nullable|file|max:10240', // max 10MB
         ]);
 
         if ($task->user_id !== auth()->id()) {
             abort(403);
+        }
+
+        if ($request->hasFile('attachment')) {
+            $path = $request->file('attachment')->store('todo-list', 's3');
+            $validated['attachment_url'] = Storage::disk('s3')->url($path);
         }
 
         $task->update($validated);
