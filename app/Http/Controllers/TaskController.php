@@ -160,6 +160,7 @@ class TaskController extends Controller
                     'Description' => $mapped[1],
                     'Due Date' => $mapped[2],
                     'Status' => $mapped[3],
+                    'Attachment' => $mapped[4]
                 ];
             });
 
