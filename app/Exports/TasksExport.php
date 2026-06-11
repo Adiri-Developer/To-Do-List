@@ -50,6 +50,7 @@ class TasksExport implements FromQuery, WithHeadings, WithMapping, WithEvents
             'Description',
             'Due Date',
             'Status',
+            'Attachment',
         ];
     }
 
@@ -67,6 +68,7 @@ class TasksExport implements FromQuery, WithHeadings, WithMapping, WithEvents
             $task->description,
             $task->due_date ? date('Y-m-d', strtotime($task->due_date)) : '',
             $statusMap[$task->status] ?? $task->status,
+            $task->attachment_url
         ];
     }
 
@@ -97,6 +99,7 @@ class TasksExport implements FromQuery, WithHeadings, WithMapping, WithEvents
                 $event->sheet->getDelegate()->getColumnDimension('B')->setAutoSize(true);
                 $event->sheet->getDelegate()->getColumnDimension('C')->setAutoSize(true);
                 $event->sheet->getDelegate()->getColumnDimension('D')->setAutoSize(true);
+                $event->sheet->getDelegate()->getColumnDimension('E')->setAutoSize(true);
             },
         ];
     }
