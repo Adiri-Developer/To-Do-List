@@ -45,6 +45,28 @@
             </button>
         </form>
 
+        @if(config('services.telegram.bot_username'))
+            <div class="mt-6">
+                <div class="relative flex items-center justify-center my-4">
+                    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                        <div class="w-full border-t border-gray-200 dark:border-gray-700"></div>
+                    </div>
+                    <div class="relative bg-white dark:bg-gray-800 px-4 text-sm">
+                        <span class="text-gray-500 dark:text-gray-400">Or continue with</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center mt-4">
+                    <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                        data-telegram-login="{{ config('services.telegram.bot_username') }}" 
+                        data-size="large" 
+                        data-auth-url="{{ route('telegram.callback') }}" 
+                        data-request-access="write">
+                    </script>
+                </div>
+            </div>
+        @endif
+
         <p class="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
             Don't have an account? 
             <a href="{{ route('register') }}" class="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Sign up</a>

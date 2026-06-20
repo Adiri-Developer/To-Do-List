@@ -3,6 +3,7 @@
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\TelegramAuthController;
 use Illuminate\Support\Facades\Route;
 
 // Guest Routes
@@ -36,4 +37,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/tasks/export', [TaskController::class, 'export'])->name('tasks.export');
     Route::resource('tasks', TaskController::class)->except(['create', 'show', 'edit', 'index']);
     Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.status');
+    
+    // Telegram Unlink Route
+    Route::post('/telegram/unlink', [TelegramAuthController::class, 'unlink'])->name('telegram.unlink');
 });
+
+// Telegram Callback Route (Accessible by Guest and Auth)
+Route::get('/login/telegram/callback', [TelegramAuthController::class, 'handleCallback'])->name('telegram.callback');

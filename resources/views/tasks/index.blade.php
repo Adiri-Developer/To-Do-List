@@ -6,6 +6,21 @@
     <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center px-4 sm:px-0 gap-4">
         <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">My Tasks</h1>
         <div class="flex items-center space-x-4">
+            @if(Auth::user()->telegram_id)
+                <button @click="isTelegramModalOpen = true" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors duration-150 ease-in-out flex items-center">
+                    <svg class="h-5 w-5 mr-1.5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.24-5.54 3.66-.52.36-.99.53-1.42.52-.47-.01-1.37-.27-2.05-.49-.83-.27-1.49-.41-1.43-.87.03-.24.37-.49 1.03-.75 4.03-1.75 6.72-2.91 8.07-3.47 3.83-1.58 4.63-1.85 5.15-1.86.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.2z"/>
+                    </svg>
+                    Connected
+                </button>
+            @else
+                <button @click="isTelegramModalOpen = true" class="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors duration-150 ease-in-out flex items-center">
+                    <svg class="h-5 w-5 mr-1.5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.24-5.54 3.66-.52.36-.99.53-1.42.52-.47-.01-1.37-.27-2.05-.49-.83-.27-1.49-.41-1.43-.87.03-.24.37-.49 1.03-.75 4.03-1.75 6.72-2.91 8.07-3.47 3.83-1.58 4.63-1.85 5.15-1.86.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.2z"/>
+                    </svg>
+                    Connect
+                </button>
+            @endif
             <button @click="isExportModalOpen = true" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors duration-150 ease-in-out flex items-center">
                 <svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -204,6 +219,77 @@
     </div>
 </div>
 
+    <!-- Telegram Modal -->
+    <div x-show="isTelegramModalOpen" class="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="display: none;">
+        <div x-show="isTelegramModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto" @click="isTelegramModalOpen = false">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div x-show="isTelegramModalOpen" @click.stop x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.24-5.54 3.66-.52.36-.99.53-1.42.52-.47-.01-1.37-.27-2.05-.49-.83-.27-1.49-.41-1.43-.87.03-.24.37-.49 1.03-.75 4.03-1.75 6.72-2.91 8.07-3.47 3.83-1.58 4.63-1.85 5.15-1.86.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.2z"/>
+                                </svg>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-title">
+                                    Telegram Integration
+                                </h3>
+                                <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    @if(Auth::user()->telegram_id)
+                                        <p class="mb-4">
+                                            Status: <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Linked</span>
+                                        </p>
+                                        <p>
+                                            Your account is linked with Telegram account <strong>{{ Auth::user()->telegram_username ? '@' . Auth::user()->telegram_username : 'ID: ' . Auth::user()->telegram_id }}</strong>. You can now log in using Telegram.
+                                        </p>
+                                    @else
+                                        <p class="mb-4">
+                                            Status: <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">Not Linked</span>
+                                        </p>
+                                        <p class="mb-4">
+                                            Link your Telegram account to login with a single click.
+                                        </p>
+                                        @if(config('services.telegram.bot_username'))
+                                            <div class="flex justify-center sm:justify-start">
+                                                <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                                                    data-telegram-login="{{ config('services.telegram.bot_username') }}" 
+                                                    data-size="large" 
+                                                    data-auth-url="{{ route('telegram.callback') }}" 
+                                                    data-request-access="write">
+                                                </script>
+                                            </div>
+                                        @else
+                                            <p class="text-amber-600 dark:text-amber-400 italic">
+                                                Telegram Bot Username is not configured.
+                                            </p>
+                                        @endif
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        @if(Auth::user()->telegram_id)
+                            <form action="{{ route('telegram.unlink') }}" method="POST" class="inline-block sm:ml-3">
+                                @csrf
+                                <button type="submit" class="cursor-pointer w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm transition-colors">
+                                    Unlink Account
+                                </button>
+                            </form>
+                        @endif
+                        <button @click="isTelegramModalOpen = false" type="button" class="cursor-pointer mt-3 sm:mt-0 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm transition-colors">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Scripts for Calendar and Chart -->
 <script>
     window.taskCalendarEvents = @json($calendarEvents);
@@ -217,6 +303,7 @@
             activeTab: 'list',
             isModalOpen: false,
             isExportModalOpen: false,
+            isTelegramModalOpen: false,
             modalMode: 'create',
             task: {
                 id: null,
