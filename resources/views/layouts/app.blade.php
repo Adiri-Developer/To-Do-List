@@ -67,7 +67,14 @@
             import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
             createChat({
-                webhookUrl: '{{ env('N8N_WEBHOOK_URL') }}'
+                webhookUrl: '{{ env('N8N_WEBHOOK_URL') }}',
+                @auth
+                metadata: {
+                    userId: '{{ Auth::id() }}',
+                    name: '{{ Auth::user()->name }}',
+                    email: '{{ Auth::user()->email }}'
+                }
+                @endauth
             });
         </script>
         @endif
